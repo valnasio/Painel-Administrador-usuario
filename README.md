@@ -31,10 +31,11 @@ Instale as dependências do projeto:
 ```
 npm install
 ```
-Instale o SQLite3:
+Instale as dependências:
 
 ```
-npm install sqlite3
+npm install express ejs sqlite3 nodemon
+
 ```
 
 Configure o servidor para apontar corretamente para o database.db no código-fonte.
