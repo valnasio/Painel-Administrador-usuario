@@ -23,7 +23,7 @@ Caso não estejam instalados, baixe e instale o Node.js a partir do site oficial
 Clone o repositório do projeto:
 
 ```
-git clone https://github.com/seu-usuario/https://github.com/valnasio/Web-App---Cadastro-de-Doa-es.git
+git clone https://github.com/seu-usuario/https://github.com/valnasio/Painel-Administrador-usuario.git
 cd seu-repositorio
 ```
 Instale as dependências do projeto:
