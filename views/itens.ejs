@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Itens para Doação</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Itens para Doação</h2>
+        <ul>
+            <% itens.forEach(item => { %>
+                <li style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <img src="<%= item.imagem %>" alt="Imagem de <%= item.nome %>" style="width: 50px; height: 50px; margin-right: 10px;">
+                    
+                    <div>
+                        <strong><%= item.nome %></strong>
+                        <form action="/adicionar-carrinho" method="POST" style="margin-top: 10px;">
+                            <input type="hidden" name="itemId" value="<%= item.id %>">
+                            <label for="quantidade-<%= item.id %>">Quantidade para Doação:</label>
+                            <input type="number" name="quantidade" id="quantidade-<%= item.id %>" min="1" required>
+                            <button type="submit">Selecionar para Doação</button>
+                        </form>
+                        
+                        <!-- Botão de Deletar só é exibido se o usuário for admin -->
+                        <% if (isAdmin) { %>
+                            <form action="/deletar-item/<%= item.id %>" method="POST" style="margin-top: 10px;">
+                                <button type="submit" style="background-color: red; color: white; border: none; padding: 5px 10px;">Deletar</button>
+                            </form>
+                        <% } %>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+</body>
+</html>

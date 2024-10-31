@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Fundo claro */
+            color: #333; /* Texto escuro */
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50; /* Cor do título */
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center; /* Centraliza os botões */
+            flex-wrap: wrap; /* Permite quebrar linha se necessário */
+            margin-top: 20px; /* Espaçamento acima do menu */
+        }
+
+        .shortcut {
+            background-color: #3498db; /* Cor de fundo dos quadrados */
+            color: white; /* Cor do texto dos quadrados */
+            padding: 20px;
+            margin: 10px; /* Espaçamento entre os quadrados */
+            border-radius: 5px; /* Cantos arredondados */
+            text-align: center; /* Centraliza o texto dentro do quadrado */
+            width: 150px; /* Largura dos quadrados */
+            text-decoration: none; /* Remove sublinhado */
+            transition: background-color 0.3s; /* Transição suave ao passar o mouse */
+        }
+
+        .shortcut:hover {
+            background-color: #2980b9; /* Cor ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+    <h1>Bem-vindo ao seu Dashboard, <%= usuario.username %></h1> <!-- Exibe o nome de usuário -->
+    <nav>
+        <a href="/carrinho" class="shortcut">Seu Carrinho</a>
+        <a href="/itens" class="shortcut">Itens Disponíveis</a>
+        <a href="/logout" class="shortcut">Sair</a>
+    </nav>
+</body>
+</html>
