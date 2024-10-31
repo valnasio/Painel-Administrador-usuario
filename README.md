@@ -36,14 +36,7 @@ Instale o SQLite3:
 ```
 npm install sqlite3
 ```
-Configure o banco de dados SQLite3. No terminal, execute os seguintes comandos:
 
-```
-sqlite3 database.db
-CREATE TABLE usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT NOT NULL, password TEXT NOT NULL);
-CREATE TABLE itens (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT NOT NULL, descricao TEXT);
-.exit
-```
 Configure o servidor para apontar corretamente para o database.db no código-fonte.
 
 Inicie o servidor:
