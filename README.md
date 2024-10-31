@@ -1,7 +1,7 @@
 # Projeto App de doações 
 
-## Este projeto é uma aplicação de painel de administração simples, onde usuários podem se cadastrar, visualizar itens e acessar funcionalidades de um painel de controle. 
-## Abaixo estão todas as informações necessárias sobre as tecnologias utilizadas,astificativa para cada uma e os passos detalhados para configuração e execução do projeto.
+### Este projeto é uma aplicação de painel de administração simples, onde usuários podem se cadastrar, visualizar itens e acessar funcionalidades de um painel de controle. 
+#### Abaixo estão todas as informações necessárias sobre as tecnologias utilizadas,astificativa para cada uma e os passos detalhados para configuração e execução do projeto.
 
 # Tecnologias Utilizadas
 
