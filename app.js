@@ -78,10 +78,21 @@ function verificarAdmin(req, res, next) {
 
 // Rota do dashboard
 app.get('/dashboard', (req, res) => {
-    db.get('SELECT * FROM usuarios WHERE id = ?', [req.session.userId], (err, usuario) => {
+    const userId = req.session.userId; // Supondo que você esteja usando sessões para armazenar o ID do usuário
+    
+    if (!userId) {
+        return res.redirect('/login'); // Redireciona para o login se o usuário não estiver autenticado
+    }
+    
+    db.get(`SELECT username FROM usuarios WHERE id = ?`, [userId], (err, usuario) => {
         if (err) {
             return res.send('Erro ao carregar o usuário');
         }
+
+        if (!usuario) {
+            return res.redirect('/login'); // Redireciona se o usuário não for encontrado
+        }
+
         res.render('dashboard', { usuario });
     });
 });
@@ -98,12 +109,19 @@ app.get('/cadastro', verificarAdmin, (req, res) => {
 
 // Cadastro de novo usuário
 app.post('/cadastro', (req, res) => {
-    const { username, password, role } = req.body;
-    db.run('INSERT INTO usuarios (username, password, role) VALUES (?, ?, ?)', [username, password, role], (err) => {
-        if (err) {
-            return res.send('Erro ao cadastrar usuário');
+    const { username, password, role, telefone } = req.body;
+
+    // Insira o usuário, incluindo o telefone, na tabela usuarios
+    db.run('INSERT INTO usuarios (username, password, role, telefone) VALUES (?, ?, ?, ?)', [username, password, role, telefone], (err) => {
+        if (err)  {
+            return res.send(`
+                <script>
+                    alert('Erro ao cadastrar usuário');
+                    window.history.back();
+                </script>
+            `);
         }
-        res.send('Usuário cadastrado com sucesso');
+        res.redirect('/login')
     });
 });
 
@@ -238,4 +256,71 @@ app.get('/acesso-negado', (req, res) => {
 // Iniciando o servidor
 app.listen(3000, () => {
     console.log('Servidor rodando na porta 3000');
+});
+
+// Rota para exibir todos os carrinhos (somente para admin)
+app.get('/carrinho_admin', verificarAdmin, (req, res) => {
+    db.all(`
+        SELECT usuarios.username, itens.nome AS item_nome, itens.valor, carrinho.quantidade
+        FROM carrinho
+        JOIN usuarios ON carrinho.usuario_id = usuarios.id
+        JOIN itens ON carrinho.item_id = itens.id
+    `, (err, carrinhos) => {
+        if (err) {
+            return res.send('Erro ao carregar os carrinhos');
+        }
+
+        const carrinhosAgrupados = carrinhos.reduce((acc, item) => {
+            if (!acc[item.username]) {
+                acc[item.username] = [];
+            }
+            acc[item.username].push(item);
+            return acc;
+        }, {});
+
+        res.render('carrinho_admin', { carrinhosAgrupados });
+    });
+});
+
+// Rota de cadastro público (qualquer pessoa pode se cadastrar como "usuario")
+app.get('/cadastro-publico', (req, res) => {
+    res.render('cadastro-publico'); // Exibe o formulário de cadastro público
+});
+
+// Cadastro de novo usuário (rota pública)
+app.post('/cadastro-publico', (req, res) => {
+    const { username, password, telefone } = req.body;
+    const role = 'usuario';  // Define o papel como "usuario"
+    
+    // Insere o usuário com o telefone no banco de dados
+    db.run('INSERT INTO usuarios (username, password, role, telefone) VALUES (?, ?, ?, ?)', [username, password, role, telefone], (err) => {
+        if (err) {
+            return alert('Erro ao cadastrar usuário');
+        }
+
+        // Retorna uma resposta indicando sucesso
+        res.json({ success: true, message: 'Cadastro realizado com sucesso! Agora você pode fazer login.' });
+    });
+});
+
+// Rota para exibir a lista de usuários (somente para admin)
+app.get('/usuarios', verificarAdmin, (req, res) => {
+    db.all('SELECT * FROM usuarios', (err, usuarios) => {
+        if (err) {
+            return res.send('Erro ao listar usuários');
+        }
+        res.render('usuarios', { usuarios });
+    });
+});
+
+// Rota para deletar um usuário (somente para admin)
+app.post('/deletar-usuario/:id', verificarAdmin, (req, res) => {
+    const id = req.params.id;
+
+    db.run(`DELETE FROM usuarios WHERE id = ?`, [id], (err) => {
+        if (err) {
+            return res.send('Erro ao deletar usuário');
+        }
+        res.redirect('/usuarios'); // Redireciona para a página de usuários após a exclusão
+    });
 });

@@ -2,14 +2,23 @@ const sqlite3 = require('sqlite3').verbose();
 
 const db = new sqlite3.Database('./database.db');
 
-// Criar tabela de usuários e inserir o usuário padrão "admin"
+// Excluir a tabela de usuários se existir (para garantir que a tabela tenha a estrutura correta)
 db.serialize(() => {
+    // Excluir a tabela usuarios se existir (isso vai apagar todos os dados da tabela)
+    db.run(`DROP TABLE IF EXISTS usuarios`, (err) => {
+        if (err) {
+            console.error("Erro ao excluir a tabela usuarios:", err.message);
+        }
+    });
+
+    // Criar tabela de usuários com o campo telefone
     db.run(`
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
-            role TEXT CHECK(role IN ('admin', 'user')) NOT NULL DEFAULT 'user'
+            role TEXT CHECK(role IN ('admin', 'user')) NOT NULL DEFAULT 'user',
+            telefone TEXT DEFAULT NULL
         )
     `, (err) => {
         if (err) {
@@ -19,10 +28,10 @@ db.serialize(() => {
         }
     });
 
-    // Inserir usuário padrão 'admin'
+    // Inserir usuário padrão 'admin' se não existir
     db.run(`
-        INSERT OR IGNORE INTO usuarios (username, password, role)
-        VALUES ('admin', 'admin', 'admin')
+        INSERT OR IGNORE INTO usuarios (username, password, role, telefone)
+        VALUES ('admin', 'admin', 'admin', '1234567890')
     `, (err) => {
         if (err) {
             console.error("Erro ao inserir usuário padrão:", err.message);
@@ -34,7 +43,7 @@ db.serialize(() => {
 
 // Criar tabela de itens com coluna de imagem
 db.serialize(() => {
-    db.run(`DROP TABLE IF EXISTS itens`); // Adicione esta linha para garantir que a tabela seja excluída
+    db.run(`DROP TABLE IF EXISTS itens`); // Excluir itens para garantir estrutura correta
     db.run(`
         CREATE TABLE IF NOT EXISTS itens (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

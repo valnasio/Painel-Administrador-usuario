@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Usuário</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Fonte bonita -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif; /* Fonte bonita */
+            background: linear-gradient(180deg, #00aaff 0%, #005577 100%); /* Gradiente de fundo */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9); /* Fundo branco com leve transparência */
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #005577;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1rem;
+            display: block;
+            margin: 15px 0 5px;
+            text-align: left;
+            color: #005577;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border: 1px solid #005577;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #f0f8ff;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #00aaff;
+        }
+
+        button {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1rem;
+            background-color: #084692;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            margin: 10px 0;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+
+        .button-secondary {
+            background-color: #888;
+        }
+
+        .button-secondary:hover {
+            background-color: #555;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Cadastrar Novo Usuário</h2>
+        <form action="/cadastro" method="POST">
+            <label for="username">Usuário:</label>
+            <input type="text" name="username" id="username" required>
+            
+            <label for="password">Senha:</label>
+            <input type="password" name="password" id="password" required>
+            
+            <label for="role">Função:</label>
+            <select name="role" id="role">
+                <option value="user">Usuário</option>
+                
+            </select>
+            
+            <!-- Campo para o telefone -->
+            <label for="telefone">Telefone:</label>
+            <input type="text" name="telefone" id="telefone" placeholder="(XX) XXXXX-XXXX">
+            
+            <button type="submit">Cadastrar</button>
+        </form>
+        <button type="button" class="button-secondary" onclick="window.location.href='/login'">Voltar para Login</button>
+        </div>
+</body>
+</html>

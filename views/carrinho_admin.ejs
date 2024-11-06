@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Painel do Administrador</title>
+    <title>Admin - Carrinhos dos Usuários</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Fonte bonita -->
     <style>
         body {
             font-family: 'Roboto', sans-serif; /* Aplicando a fonte */
             background: linear-gradient(180deg, #00aaff 0%, #005577 100%); /* Gradiente de fundo */
             overflow: hidden; /* Oculta a barra de rolagem */
-            font-size:xx-large;
+            font-size: 1.5rem;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Efeito de água viva */
         .wave {
             position: absolute;
             top: 0;
@@ -40,21 +41,59 @@
         .container {
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centralizando conteúdo */
-            justify-content: center; /* Centralizando conteúdo verticalmente */
-            height: 100vh; /* Altura total da viewport */
-            color: white; /* Cor do texto */
-            text-align: center; /* Centralizando texto */
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 40%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #ffffff33; /* Leve fundo transparente */
+            border-radius: 8px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #005577;
+        }
+
+        th {
+            background-color: #005577;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e0f7fa;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #b2ebf2;
+        }
+
+        td {
+            color: #333;
         }
 
         .button-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 10px;
         }
+
         .button {
-            font-family: 'Roboto', sans-serif; /* Aplicando a fonte */
+            font-family: 'Roboto', sans-serif;
             font-size: large;
             background: #084692;
             color: white;
@@ -69,21 +108,48 @@
             transition: background 0.3s;
             text-decoration: none;
         }
+
         .button:hover {
             background: #005bb5;
+        }
+
+        .user-info {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: #f0f0f0;
         }
     </style>
 </head>
 <body>
     <div class="wave"></div> <!-- Camada de efeito -->
     <div class="container">
-        <h2>Painel do Administrador</h2>
+        <h1>Carrinhos dos Usuários</h1>
+        
+        <% for (let username in carrinhosAgrupados) { %>
+            <div class="user-info">
+                <h2><%= username %></h2>
+                <p><strong>Telefone:</strong> <%= carrinhosAgrupados[username].telefone %></p> <!-- Exibindo o telefone -->
+            </div>
+            
+            <table>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantidade</th>
+                </tr>
+                <% carrinhosAgrupados[username].forEach(item => { %>
+                    <tr>
+                        <td><%= item.item_nome %></td>
+                        <td><%= item.quantidade %></td>
+                    </tr>
+                <% }); %>
+            </table>
+        <% } %>
+
+        <!-- Adicionando botões -->
         <div class="button-container">
             <a href="/cadastro" class="button">Cadastro de Usuário</a>
             <a href="/cadastro-item" class="button">Cadastro de Item</a>
             <a href="/itens" class="button">Lista de Itens</a>
-            <a href="/carrinho_admin" class="button">Carrinhos</a>
-            <a href="/usuarios" class="button">Usuarios</a>
             <a href="/logout" class="button">Sair</a>
         </div>
     </div>
